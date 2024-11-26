@@ -17,6 +17,17 @@
                     <td>{{ $user->email }}</td>
                     <td>
                         <a href="{{ route('user.edit', $user->id) }}">Edit</a>
+                        {{-- get, delete --}}
+                        {{-- <a href="{{ route('delete', $user->id) }}"
+                            onclick="return confirm('apakah anda yakin untuk menghapus data ini??')">
+                            Delete
+                        </a> --}}
+                        <form action="{{ route('user.destroy', $user->id) }}" method="POST">
+                            @method('delete');
+                            @csrf
+                            <button>Delete</button>
+                        </form>
+
                     </td>
                 </tr>
             @endforeach

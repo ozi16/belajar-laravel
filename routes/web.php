@@ -1,14 +1,24 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KalkulatorController;
 use App\Http\Controllers\LatihanController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
+
+use function Pest\Laravel\delete;
 
 //  "/" adalah default(bawaan) route
 //  method get(melihat), post(mengirim data dari form(insert,update)), put(mengirim data dari form (khusu update)),delete(mengirim data dari form untuk delete)
-Route::get('/', function () {
-    return view('welcome');
+
+// untuk resource Login
+Route::get('/', [LoginController::class, 'index']);
+Route::post('actionLogin', [LoginController::class, 'actionLogin'])->name('actionLogin');
+
+// grouping setelah routing
+Route::middleware(['auth'])->group(function () {
+    Route::resource('dashboard', DashboardController::class);
 });
 
 Route::get('latihan', [LatihanController::class, 'index']);
@@ -21,9 +31,14 @@ Route::get('kurang', [KalkulatorController::class, 'kurang'])->name('kurang');
 Route::get('kali', [KalkulatorController::class, 'kali'])->name('kali');
 Route::get('bagi', [KalkulatorController::class, 'bagi'])->name('bagi');
 
-Route::post('store-tambah', [KalkulatorController::class, 'storeTambah'])->name('store-tambah');
+Route::post('store-tambah1', [KalkulatorController::class, 'storeTambah'])->name('store-tambah');
 Route::post('store-kurang', [KalkulatorController::class, 'storeKurang'])->name('store-kurang');
 Route::post('store-kali', [KalkulatorController::class, 'storeKali'])->name('store-kali');
+Route::post('store-bagi', [KalkulatorController::class, 'storeBagi'])->name('store-bagi');
 
 // resource berfungdi sgsr tidak usah membuat beberapa method dalam 1 baris
 Route::resource('user', UsersController::class);
+
+Route::get('delete/{id}', [UsersController::class, 'delete'])->name('delete');
+
+// login
