@@ -131,5 +131,23 @@
 
     @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9']);
 
+    {{-- untuk memasukan data pada table create order --}}
+    <script>
+        // let button = document.querySelector('.add - row');
+        $('.add-row').click(function(e) {
+            e.preventDefault(); // mematikan agar mebhilangkan type submit pada button
+            let newRow = "";
+            newRow += "<tr>";
+            newRow += "<td>ini td 1</td>";
+            newRow += "<td>ini td 2</td>";
+            newRow += "<td>ini td 3</td>";
+            newRow += "<td>ini td 4</td>";
+            newRow += "</tr>";
+
+            let tbody = $('.tbody-parent');
+            tbody.append(newRow); //
+        })
+    </script>
+
   </body>
 </html>

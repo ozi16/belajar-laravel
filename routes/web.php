@@ -5,7 +5,11 @@ use App\Http\Controllers\KalkulatorController;
 use App\Http\Controllers\LatihanController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\TransOrderController;
 use Illuminate\Support\Facades\Route;
+
 
 use function Pest\Laravel\delete;
 
@@ -14,11 +18,16 @@ use function Pest\Laravel\delete;
 
 // untuk resource Login
 Route::get('/', [LoginController::class, 'index']);
+Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('actionLogin', [LoginController::class, 'actionLogin'])->name('actionLogin');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
 // grouping setelah routing
 Route::middleware(['auth'])->group(function () {
     Route::resource('dashboard', DashboardController::class);
+    Route::resource('service', ServiceController::class);
+    Route::resource('customer', CustomerController::class);
+    Route::resource('trans_order', TransOrderController::class);
 });
 
 Route::get('latihan', [LatihanController::class, 'index']);
@@ -41,4 +50,4 @@ Route::resource('user', UsersController::class);
 
 Route::get('delete/{id}', [UsersController::class, 'delete'])->name('delete');
 
-// login
+// route paket
