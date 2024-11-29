@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = ['id_customer', 'order_code', 'order_date', 'order_end', 'order_status'];
+    protected $fillable = ['total_price', 'id_customer', 'order_code', 'order_date', 'order_end', 'order_status'];
 
     // ORM : orbject relation mapping => menghubungkan dari 1 model ke model lainya
     // LEFT JOIN, RIGHT JOIN, INNER JOIN, OUTER JOIN
@@ -14,6 +14,6 @@ class Order extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer', 'id');
+        return $this->belongsTo(Customer::class,  'id_customer', 'id');
     }
 }

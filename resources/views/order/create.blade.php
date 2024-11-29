@@ -17,6 +17,16 @@
                             <input type="date" name="order_date" placeholder="" class="form-control"
                                 value="{{ $order_date ?? '' }}">
                         </div>
+                        <div class="mb-3">
+                            <label for="">Paket</label>
+                            <select name="" id="id_paket" class="form-control">
+                                <option value="">--Pilih Paket--</option>
+                                @foreach ($services as $service)
+                                    <option value="{{ $service->id }}">{{ $service->service_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="hidden" id="price">
                     </div>
                     <div class="col-sm-6">
                         <div class="mb-3">
@@ -33,6 +43,10 @@
                             <input type="date" name="order_end" placeholder="" class="form-control"
                                 value="{{ $order_end ?? '' }}">
                         </div>
+                        <div class="mb-3">
+                            <label for="">Qty (kg)</label>
+                            <input type="number" class="qty form-control" placeholder="masukan qty">
+                        </div>
                     </div>
                 </div>
                 {{-- membuat button untuk menambahkan table ketika di click --}}
@@ -44,8 +58,8 @@
                         <thead>
                             <tr>
                                 <th>Nama paket</th>
-                                <th>Qty</th>
                                 <th>Harga</th>
+                                <th>Qty</th>
                                 <th>SubTotal</th>
                             </tr>
                         </thead>
@@ -57,6 +71,15 @@
                                 <td></td> --}}
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td>
+                                    <input type="number" name="total_price" class="total-harga form-control" readonly>
+                                    <input type="hidden" name="order_status" value="0">
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
 

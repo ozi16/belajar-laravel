@@ -133,19 +133,61 @@
 
     {{-- untuk memasukan data pada table create order --}}
     <script>
+        $('#id_paket').change(function() {
+            let id_paket = $(this).val();
+
+            $.ajax({
+                url: '/get-paket/' + id_paket,
+                type: 'GET',
+                dataType: 'json',
+                success: function(resp) {
+                    $('#price').val(resp.price);
+                }
+            })
+        });
         // let button = document.querySelector('.add - row');
         $('.add-row').click(function(e) {
+            let nama_paket = $('#id_paket').find('option:selected').text(),
+                id_paket = $('#id_paket').val(),
+                harga = $('#price').val(),
+                qty = $('.qty').val(), // jika menggunakan "." berarti itu class jika memakai "#" itu merupakan id
+                // parseInt digunakan untuk mengubah teks(string) menjadi bilangan bulat(integer). fungsi ini membaca angka dariawal string gingga menemui karakter yang bukan angka
+                subtotal = parseInt(harga) * parseInt(qty);
+            if (id_paket == "") {
+                alert("mohon isi paket laundry terlebih dahulu");
+                return false;
+            }
+            if (qty == "") {
+                alert("mohon isi qty terlebih dahulu");
+                return false;
+            }
+
             e.preventDefault(); // mematikan agar mebhilangkan type submit pada button
             let newRow = "";
             newRow += "<tr>";
-            newRow += "<td>ini td 1</td>";
-            newRow += "<td>ini td 2</td>";
-            newRow += "<td>ini td 3</td>";
-            newRow += "<td>ini td 4</td>";
+            newRow += "<td>" + nama_paket +
+                "<input type='hidden' value='" + id_paket +
+                "' name='id_paket[]' class='form-control'></td>";
+            newRow += "<td>" + harga + "<input type='hidden' name='price_service[]'  value='" + harga +
+                "'</td>";
+            newRow += "<td>" + qty + "<input type='hidden' name='qty[]' id='qty' value='" + qty + "' </td>";
+            newRow += "<td>" + subtotal + "<input type='hidden' class='subtotal' name='subtotal[]' value='" +
+                subtotal + "'  </td>";
             newRow += "</tr>";
 
             let tbody = $('.tbody-parent');
             tbody.append(newRow); //
+
+            let total = 0;
+            $('.subtotal').each(function() {
+                let totalHarga = parseFloat($(this).val()) | 0;
+                total += totalHarga;
+            });
+            $('.total-harga').val(total);
+
+
+            $('#id_paket').val(""); // untuk mengembalikan pilih paket ke default setelah memilih paket
+            $('.qty').val("");
         })
     </script>
 
